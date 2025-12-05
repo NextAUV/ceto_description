@@ -19,10 +19,10 @@
         </inertia>
       </inertial>
 
-      <visual name="base_link_visual">
+    <visual name="base_link_visual">
         <geometry>
           <mesh>
-            <uri>model://meshes/bluerov2/bluerov2.dae</uri>
+            <uri>model://ceto_description/description/meshes/bluerov2.dae</uri>
             <scale>0.025 0.025 0.025</scale>
           </mesh>
         </geometry>
@@ -152,7 +152,7 @@
         <pose>0 0 0 -1.571 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://meshes/t200/ccw_prop.dae</uri>
+            <uri>model://ceto_description/description/meshes/ccw_prop.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -175,7 +175,7 @@
         <pose>0 0 0 -1.571 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://meshes/t200/ccw_prop.dae</uri>
+            <uri>model://ceto_description/description/meshes/ccw_prop.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -198,7 +198,7 @@
         <pose>0 0 0 1.571 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://meshes/t200/cw_prop.dae</uri>
+            <uri>model://ceto_description/description/meshes/ccw_prop.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -221,7 +221,7 @@
         <pose>0 0 0 1.571 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://meshes/t200/cw_prop.dae</uri>
+            <uri>model://ceto_description/description/meshes/ccw_prop.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -244,7 +244,7 @@
         <pose>0 0 0 -1.571 0 1.571</pose>
         <geometry>
           <mesh>
-            <uri>model://meshes/t200/ccw_prop.dae</uri>
+            <uri>model://ceto_description/description/meshes/ccw_prop.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -267,7 +267,7 @@
         <pose>0 0 0 1.571 0 1.571</pose>
         <geometry>
           <mesh>
-            <uri>model://meshes/t200/cw_prop.dae</uri>
+            <uri>model://ceto_description/description/meshes/ccw_prop.dae</uri>
           </mesh>
         </geometry>
       </visual>

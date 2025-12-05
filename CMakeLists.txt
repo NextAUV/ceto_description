@@ -6,7 +6,7 @@ find_package(
   ament_cmake_python REQUIRED
   rclcpp REQUIRED
   rclpy REQUIRED
-	ros_ign_gazebo REQUIRED
+	ros_gz_sim REQUIRED
 )
 
 ament_python_install_package(${PROJECT_NAME})
@@ -23,6 +23,6 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}
 )
 
-ament_environment_hooks("${CMAKE_CURRENT_SOURCE_DIR}/env-hooks/${PROJECT_NAME}.dsv.in")
+# ament_environment_hooks("${CMAKE_CURRENT_SOURCE_DIR}/env-hooks/${PROJECT_NAME}.dsv.in")
 
 ament_package()

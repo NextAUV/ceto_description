@@ -13,7 +13,7 @@
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <!-- Assuming a ROS package named 'ceto_description/description' exists -->
-        <mesh filename="file://$(find ceto_description)/description/meshes/ceto_description/description/ceto_description/description.dae" scale="0.025 0.025 0.025"/>
+        <mesh filename="package://ceto_description/description/meshes/bluerov2.dae" scale="0.025 0.025 0.025"/>
       </geometry>
     </visual>
 
@@ -26,7 +26,7 @@
   </link>
 
   <!-- Camera Mount Link -->
-  <!-- <link name="camera_mount_link">
+  <link name="camera_mount_link">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.0001"/>
@@ -38,7 +38,7 @@
     <origin xyz="0.19 0 0.067" rpy="0 0 0"/>
     <parent link="base_link"/>
     <child link="camera_mount_link"/>
-  </joint> -->
+  </joint>
 
   <!-- Camera Link -->
   <link name="camera_link">
@@ -65,7 +65,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="-1.571 0 0"/>
       <geometry>
-        <mesh filename="file://$(find ceto_description)/description/meshes/ccw_prop.dae"/>
+        <mesh filename="package://ceto_description/description/meshes/ccw_prop.dae"/>
       </geometry>
     </visual>
   </link>
@@ -87,7 +87,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="-1.571 0 0"/>
       <geometry>
-        <mesh filename="file://$(find ceto_description)/description/meshes/ccw_prop.dae"/>
+        <mesh filename="package://ceto_description/description/meshes/ccw_prop.dae"/>
       </geometry>
     </visual>
   </link>
@@ -109,7 +109,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="1.571 0 0"/>
       <geometry>
-        <mesh filename="file://$(find ceto_description)/description/meshes/cw_prop.dae"/>
+        <mesh filename="package://ceto_description/description/meshes/ccw_prop.dae"/>
       </geometry>
     </visual>
   </link>
@@ -131,7 +131,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="1.571 0 0"/>
       <geometry>
-        <mesh filename="file://$(find ceto_description)/description/meshes/cw_prop.dae"/>
+        <mesh filename="package://ceto_description/description/meshes/ccw_prop.dae"/>
       </geometry>
     </visual>
   </link>
@@ -153,7 +153,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="-1.571 0 1.571"/>
       <geometry>
-        <mesh filename="file://$(find ceto_description)/description/meshes/ccw_prop.dae"/>
+        <mesh filename="package://ceto_description/description/meshes/ccw_prop.dae"/>
       </geometry>
     </visual>
   </link>
@@ -175,7 +175,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="1.571 0 1.571"/>
       <geometry>
-        <mesh filename="file://$(find ceto_description)/description/meshes/cw_prop.dae"/>
+        <mesh filename="package://ceto_description/description/meshes/ccw_prop.dae"/>
       </geometry>
     </visual>
   </link>
