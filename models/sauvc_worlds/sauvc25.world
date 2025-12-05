@@ -3,28 +3,28 @@
   <world name="pool_world">
 
     <plugin
-      filename="ignition-gazebo-physics-system"
+      filename="libignition-gazebo-physics-system"
       name="gz::sim::systems::Physics">
     </plugin>
     <plugin
-      filename="ignition-gazebo-user-commands-system"
+      filename="libignition-gazebo-user-commands-system"
       name="gz::sim::systems::UserCommands">
     </plugin>
     <plugin
-      filename="ignition-gazebo-scene-broadcaster-system"
+      filename="libignition-gazebo-scene-broadcaster-system"
       name="gz::sim::systems::SceneBroadcaster">
     </plugin>
     <plugin
-      filename="ignition-gazebo-sensors-system"
+      filename="libignition-gazebo-sensors-system"
       name="gz::sim::systems::Sensors">
       <render_engine>ogre2</render_engine>
     </plugin>
     <plugin
-      filename="ignition-gazebo-imu-system"
+      filename="libignition-gazebo-imu-system"
       name="gz::sim::systems::Imu">
     </plugin>
     <plugin
-      filename="ignition-gazebo-magnetometer-system"
+      filename="libignition-gazebo-magnetometer-system"
       name="gz::sim::systems::Magnetometer">
     </plugin>
 
@@ -164,6 +164,37 @@
       </link>
     </model> 
 
+    <!-- <include>
+      <uri>
+        https://fuel.gazebosim.org/1.0/OpenRobotics/models/Coast Water
+      </uri>
+    </include>
+
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/hmoyen/models/Sand Heightmap</uri>
+      <pose>0 0 -95 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>sunken_vase</name>
+      <pose>7.5 0 -95 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/Cole/models/Sunken Vase</uri>
+    </include>
+
+    <include>
+      <name>sunken_vase_distorted</name>
+      <pose>7.5 1 -95 0 0 0</pose>
+      <uri>https://fuel.gazebosim.org/1.0/hmoyen/models/Sunken Vase Distorted</uri>
+      <static>true</static>
+    </include>
+
+    <include>
+      <name>Coral1</name>
+      <pose>7 -1 -95 0 0 0</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/Cole/models/Coral01</uri>
+      <static>true</static>
+    </include> -->
+
     <!-- World-level Buoyancy system: uniform water region filling the pool -->
     <plugin filename="ignition-gazebo-buoyancy-system" name="ignition::gazebo::systems::Buoyancy">
       <!-- <uniform_fluid_density>1000</uniform_fluid_density> -->
@@ -176,7 +207,7 @@
       </graded_buoyancy>
 
     </plugin>
-
+<!-- 
     <include>
       <uri>model://gate</uri>
       <pose>7 0 -2.2 0 -0 0</pose>
@@ -240,7 +271,7 @@
     <include>
       <uri>model://red_flare</uri>
       <pose>19.6 3 -2.2 0 -0 0</pose>
-    </include>
+    </include> -->
 
   </world>
 </sdf>

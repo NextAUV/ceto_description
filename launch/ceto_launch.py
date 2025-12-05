@@ -4,29 +4,30 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
-from launch.substitutions import Command
-from launch.substitutions import FindExecutable
+from launch.substitutions import Command, FindExecutable
+
 
 def generate_launch_description():
 
     pkg_ceto_description = get_package_share_directory('ceto_description')
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
 
-    # Paths
+    # Paths --------------------------------------------------------------------
     sdf_file_path = os.path.join(pkg_ceto_description, 'description', 'sdf', 'model.sdf')
     urdf_file_path = os.path.join(pkg_ceto_description, 'description', 'urdf', 'bluerov2.urdf')
     rviz_config_path = os.path.join(pkg_ceto_description, 'config', 'default.rviz')
+    
+    # Add your world file
+    world_file_path = os.path.join(pkg_ceto_description, 'models', 'sauvc_worlds', 'sauvc25.world')
 
-    # GZ_SIM_RESOURCE_PATH must point to the directory that *contains* all model folders
-    # Example: /install/share (NOT /install/share/ceto_description)
-    install_share_path = os.path.dirname(pkg_ceto_description)
+
 
     set_gz_resource_path = SetEnvironmentVariable(
-        name='GZ_SIM_RESOURCE_PATH',
-        value=install_share_path
+        name='GAZEBO_RESOURCE_PATH',
+        value=pkg_ceto_description
     )
 
-    # Robot Description (URDF) — for RViz visualization
+    # Robot State Publisher -----------------------------------------------------
     robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -34,11 +35,14 @@ def generate_launch_description():
         output='both',
         parameters=[
             {'use_sim_time': True},
-            {'robot_description': Command([FindExecutable(name='xacro'),' ',urdf_file_path])}
+            {'robot_description': Command([
+                FindExecutable(name='xacro'),' ',
+                urdf_file_path
+            ])}
         ]
     )
 
-    # Optional: only needed if your URDF has moving joints
+    # Joint State Publisher -----------------------------------------------------
     joint_state_publisher = Node(
         package='joint_state_publisher',
         executable='joint_state_publisher',
@@ -46,17 +50,18 @@ def generate_launch_description():
         parameters=[{'use_sim_time': True}]
     )
 
-    # Gazebo Sim – load SDF world
+    # Gazebo Simulation ---------------------------------------------------------
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')
         ),
+        # Load world + pass SDF spawn file
         launch_arguments={
-            'gz_args': f'-r -v 4 {sdf_file_path}'
+            'gz_args': f'-r -v 4 {world_file_path}'
         }.items(),
     )
 
-    # RViz2
+    # RViz ----------------------------------------------------------------------
     rviz2 = Node(
         package='rviz2',
         executable='rviz2',

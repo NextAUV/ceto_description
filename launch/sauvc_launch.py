@@ -34,7 +34,7 @@ def generate_launch_description():
         value=new_gz_resource_path
     )
 
-    world_path = os.path.join(pkg_sauvc_sim, 'worlds', 'sauvc25.world')
+    world_path = os.path.join(pkg_sauvc_sim, 'worlds', 'ceto_launch.world')
 
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
