@@ -9,12 +9,12 @@ from launch.substitutions import Command, LaunchConfiguration
 from launch.conditions import IfCondition
 
 def generate_launch_description():
-    pkg_sauvc_sim = get_package_share_directory('sauvc_sim')
-    urdf_file_path = os.path.join(pkg_sauvc_sim, 'urdf', 'robot.urdf.xacro')
-    rviz_config_path = os.path.join(pkg_sauvc_sim, 'rviz', 'default.rviz')
+    pkg_ceto_description = get_package_share_directory('ceto_description')
+    urdf_file_path = os.path.join(pkg_ceto_description, 'urdf', 'robot.urdf.xacro')
+    rviz_config_path = os.path.join(pkg_ceto_description, 'rviz', 'default.rviz')
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
 
-    bridge_config_file = os.path.join(pkg_sauvc_sim, 'config', 'bridge.yaml')
+    bridge_config_file = os.path.join(pkg_ceto_description, 'config', 'bridge.yaml')
 
     # FINAL FIX: The xacro command must be a list of two separate strings.
     robot_description = ParameterValue(
@@ -25,16 +25,16 @@ def generate_launch_description():
     # Set the Gazebo resource path
     if 'GZ_SIM_RESOURCE_PATH' in os.environ:
         gz_resource_path = os.environ['GZ_SIM_RESOURCE_PATH']
-        new_gz_resource_path = os.path.join(pkg_sauvc_sim, 'models') + ':' + gz_resource_path
+        new_gz_resource_path = os.path.join(pkg_ceto_description, 'models') + ':' + gz_resource_path
     else:
-        new_gz_resource_path = os.path.join(pkg_sauvc_sim, 'models')
+        new_gz_resource_path = os.path.join(pkg_ceto_description, 'models')
 
     set_model_path = SetEnvironmentVariable(
         name='GZ_SIM_RESOURCE_PATH',
         value=new_gz_resource_path
     )
 
-    world_path = os.path.join(pkg_sauvc_sim, 'worlds', 'sauvc25.world')
+    world_path = os.path.join(pkg_ceto_description, 'worlds', 'sauvc25.world')
 
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(

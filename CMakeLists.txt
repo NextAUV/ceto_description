@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(sauvc_sim)
+project(ceto_description)
 
 find_package(
   ament_cmake REQUIRED
