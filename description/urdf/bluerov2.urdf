@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+<robot name="ceto_description/description">
+
+  <!-- Base Link -->
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0.0 0.0 0.011" rpy="0 0 0"/>
+      <mass value="10.0"/>
+      <inertia ixx="0.099" ixy="0" ixz="0" iyy="0.178" iyz="0" izz="0.269"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <!-- Assuming a ROS package named 'ceto_description/description' exists -->
+        <mesh filename="file://$(find ceto_description)/description/meshes/ceto_description/description/ceto_description/description.dae" scale="0.025 0.025 0.025"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0.0 0.0 0.06" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.457 0.338 0.065"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Camera Mount Link -->
+  <!-- <link name="camera_mount_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.0001"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <joint name="camera_mount_joint" type="fixed">
+    <origin xyz="0.19 0 0.067" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="camera_mount_link"/>
+  </joint> -->
+
+  <!-- Camera Link -->
+  <link name="camera_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.0001"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <joint name="camera_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="camera_mount_link"/>
+    <child link="camera_link"/>
+  </joint>
+
+  <!-- Thruster 1 -->
+  <link name="thruster1">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.002"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="-1.571 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find ceto_description)/description/meshes/ccw_prop.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="thruster1_joint" type="continuous">
+    <origin xyz="0.14 -0.092 0.0" rpy="-1.571 1.571 -0.785"/>
+    <parent link="base_link"/>
+    <child link="thruster1"/>
+    <axis xyz="0 0 -1"/>
+  </joint>
+
+  <!-- Thruster 2 -->
+  <link name="thruster2">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.002"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="-1.571 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find ceto_description)/description/meshes/ccw_prop.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="thruster2_joint" type="continuous">
+    <origin xyz="0.14 0.092 0.0" rpy="-1.571 1.571 -2.356"/>
+    <parent link="base_link"/>
+    <child link="thruster2"/>
+    <axis xyz="0 0 -1"/>
+  </joint>
+
+  <!-- Thruster 3 -->
+  <link name="thruster3">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.002"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.571 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find ceto_description)/description/meshes/cw_prop.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="thruster3_joint" type="continuous">
+    <origin xyz="-0.15 -0.092 0.0" rpy="-1.571 1.571 0.785"/>
+    <parent link="base_link"/>
+    <child link="thruster3"/>
+    <axis xyz="0 0 -1"/>
+  </joint>
+
+  <!-- Thruster 4 -->
+  <link name="thruster4">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.002"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.571 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find ceto_description)/description/meshes/cw_prop.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="thruster4_joint" type="continuous">
+    <origin xyz="-0.15 0.092 0.0" rpy="-1.571 1.571 2.356"/>
+    <parent link="base_link"/>
+    <child link="thruster4"/>
+    <axis xyz="0 0 -1"/>
+  </joint>
+
+  <!-- Thruster 5 -->
+  <link name="thruster5">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.002"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="-1.571 0 1.571"/>
+      <geometry>
+        <mesh filename="file://$(find ceto_description)/description/meshes/ccw_prop.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="thruster5_joint" type="continuous">
+    <origin xyz="0.0 -0.109 0.077" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="thruster5"/>
+    <axis xyz="0 0 -1"/>
+  </joint>
+
+  <!-- Thruster 6 -->
+  <link name="thruster6">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.002"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="1.571 0 1.571"/>
+      <geometry>
+        <mesh filename="file://$(find ceto_description)/description/meshes/cw_prop.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="thruster6_joint" type="continuous">
+    <origin xyz="0.0 0.109 0.077" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="thruster6"/>
+    <axis xyz="0 0 -1"/>
+  </joint>
+
+</robot>
