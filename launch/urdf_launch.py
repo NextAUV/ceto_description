@@ -1,58 +1,62 @@
+#!/usr/bin/env python3
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, SetEnvironmentVariable
-from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable
+from launch.substitutions import Command, LaunchConfiguration
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
     pkg_ceto_description = get_package_share_directory('ceto_description')
-    pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
 
-    # world and model paths
-    world_path = os.path.join(pkg_ceto_description, 'worlds', 'sauvc25.world')
-    model_sdf_path = os.path.join(pkg_ceto_description, 'models', 'bluerov', 'model.sdf')
+    # paths
+    urdf_xacro = os.path.join(pkg_ceto_description, 'urdf', 'robot.urdf.xacro')
+    rviz_config = os.path.join(pkg_ceto_description, 'rviz', 'default.rviz')
 
-    # Ensure GZ_SIM_RESOURCE_PATH contains the package models directory (so meshes/textures resolve)
-    if 'GZ_SIM_RESOURCE_PATH' in os.environ:
-        gz_resource_path = os.environ['GZ_SIM_RESOURCE_PATH']
-        new_gz_resource_path = os.path.join(pkg_ceto_description, 'models') + ':' + gz_resource_path
-    else:
-        new_gz_resource_path = os.path.join(pkg_ceto_description, 'models')
-
-    set_model_path = SetEnvironmentVariable(
-        name='GZ_SIM_RESOURCE_PATH',
-        value=new_gz_resource_path
+    # produce robot_description by running xacro on your xacro file
+    robot_description = ParameterValue(
+        Command(['xacro', ' ', urdf_xacro]),
+        value_type=str
     )
 
-    # Include the standard ros_gz_sim launcher (starts gzserver + gz GUI)
-    gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')
-        ),
-        launch_arguments={'gz_args': f'-r -v 4 {world_path}'}.items(),
-    )
+    # If you want rviz to use simulated time (e.g. if using /clock), set use_sim_time=True
+    use_sim_time = LaunchConfiguration('use_sim_time', default='true')
 
-    # Spawn the bluerov SDF file into the running world
-    spawn_bluerov = Node(
-        package='ros_gz_sim',
-        executable='create',
-        arguments=[
-            '-file', model_sdf_path,
-            '-name', 'bluerov',
-            '-x', '0.0',
-            '-y', '0.0',
-            '-z', '0.0',
-            '-R', '0.0',
-            '-P', '0.0',
-            '-Y', '0.0'
-        ],
+
+    # Start rviz2 to visualize the robot model and TF
+    rviz_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        arguments=['-d', rviz_config],
+        parameters=[{'use_sim_time': use_sim_time}],
         output='screen'
     )
 
-    return LaunchDescription([
-        set_model_path,
-        gazebo,
-        spawn_bluerov
-    ])
+    # joint_state_publisher: publishes joint states (non-simulated or from other sources)
+    joint_state_publisher_node = Node(
+        package='joint_state_publisher',
+        executable='joint_state_publisher',
+        name='joint_state_publisher',
+        parameters=[{'use_sim_time': use_sim_time}],
+        output='screen'
+    )
 
+    # robot_state_publisher: publishes TF based on robot_description + joint states
+    robot_state_publisher_node = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        name='robot_state_publisher',
+        parameters=[{'robot_description': robot_description, 'use_sim_time': use_sim_time}],
+        output='screen'
+    )
+
+
+
+    return LaunchDescription([
+        DeclareLaunchArgument('use_sim_time', default_value='true', description='Use simulation (GZ) clock'),
+        joint_state_publisher_node,
+        robot_state_publisher_node,
+        rviz_node
+    ])

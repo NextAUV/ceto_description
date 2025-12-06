@@ -13,7 +13,7 @@
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <!-- Assuming a ROS package named 'ceto_description/description' exists -->
-        <mesh filename="file://$(find ceto_description)/meshes/bluerov2.dae" scale="0.025 0.025 0.025"/>
+        <mesh filename="file://$(find ceto_description)/models/meshes/bluerov2.dae" scale="0.025 0.025 0.025"/>
       </geometry>
     </visual>
 
@@ -65,7 +65,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="-1.571 0 0"/>
       <geometry>
-        <mesh filename="file://$(find ceto_description)/meshes/ccw_prop.dae"/>
+        <mesh filename="file://$(find ceto_description)/models/meshes/ccw_prop.dae"/>
       </geometry>
     </visual>
   </link>
@@ -87,7 +87,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="-1.571 0 0"/>
       <geometry>
-        <mesh filename="file://$(find ceto_description)/meshes/ccw_prop.dae"/>
+        <mesh filename="file://$(find ceto_description)/models/meshes/ccw_prop.dae"/>
       </geometry>
     </visual>
   </link>
@@ -109,7 +109,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="1.571 0 0"/>
       <geometry>
-        <mesh filename="file://$(find ceto_description)/meshes/ccw_prop.dae"/>
+        <mesh filename="file://$(find ceto_description)/models/meshes/ccw_prop.dae"/>
       </geometry>
     </visual>
   </link>
@@ -131,7 +131,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="1.571 0 0"/>
       <geometry>
-        <mesh filename="file://$(find ceto_description)/meshes/ccw_prop.dae"/>
+        <mesh filename="file://$(find ceto_description)/models/meshes/ccw_prop.dae"/>
       </geometry>
     </visual>
   </link>
@@ -153,7 +153,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="-1.571 0 1.571"/>
       <geometry>
-        <mesh filename="file://$(find ceto_description)/meshes/ccw_prop.dae"/>
+        <mesh filename="file://$(find ceto_description)/models/meshes/ccw_prop.dae"/>
       </geometry>
     </visual>
   </link>
@@ -175,7 +175,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="1.571 0 1.571"/>
       <geometry>
-        <mesh filename="file://$(find ceto_description)/meshes/ccw_prop.dae"/>
+        <mesh filename="file://$(find ceto_description)/models/meshes/ccw_prop.dae"/>
       </geometry>
     </visual>
   </link>
