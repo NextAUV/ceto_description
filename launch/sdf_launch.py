@@ -11,7 +11,7 @@ def generate_launch_description():
 
     # world and model paths
     world_path = os.path.join(pkg_ceto_description, 'worlds', 'sauvc25.world')
-    model_sdf_path = os.path.join(pkg_ceto_description, 'models', 'bluerov', 'model.sdf')
+    model_sdf_path = os.path.join(pkg_ceto_description, 'models', 'bluerov2', 'model.sdf')
 
     # Ensure GZ_SIM_RESOURCE_PATH contains the package models directory (so meshes/textures resolve)
     if 'GZ_SIM_RESOURCE_PATH' in os.environ:
@@ -33,13 +33,13 @@ def generate_launch_description():
         launch_arguments={'gz_args': f'-r -v 4 {world_path}'}.items(),
     )
 
-    # Spawn the bluerov SDF file into the running world
-    spawn_bluerov = Node(
+    # Spawn the bluerov2 SDF file into the running world
+    spawn_bluerov2 = Node(
         package='ros_gz_sim',
         executable='create',
         arguments=[
             '-file', model_sdf_path,
-            '-name', 'bluerov',
+            '-name', 'bluerov2',
             '-x', '0.0',
             '-y', '0.0',
             '-z', '0.0',
@@ -53,5 +53,5 @@ def generate_launch_description():
     return LaunchDescription([
         set_model_path,
         gazebo,
-        spawn_bluerov
+        spawn_bluerov2
     ])
