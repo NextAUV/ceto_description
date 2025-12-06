@@ -382,7 +382,6 @@
         filename="libignition-gazebo-thruster-system"
         name="ignition::gazebo::systems::Thruster">
       <namespace>bluerov2</namespace>
-      <topic>move/thruster5/cmd_vel</topic>
       <joint_name>thruster5_joint</joint_name>
       <thrust_coefficient>0.02</thrust_coefficient>
       <fluid_density>1025.0</fluid_density>
