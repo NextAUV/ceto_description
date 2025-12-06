@@ -5,53 +5,61 @@ from launch.actions import IncludeLaunchDescription, SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 
+
 def generate_launch_description():
     pkg_ceto_description = get_package_share_directory('ceto_description')
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
 
-    # world and model paths
+    # Paths
     world_path = os.path.join(pkg_ceto_description, 'worlds', 'sauvc25.world')
-    model_sdf_path = os.path.join(pkg_ceto_description, 'models', 'bluerov2', 'model.sdf')
+    model_dir = os.path.join(pkg_ceto_description, 'models')
+    model_sdf_path = os.path.join(model_dir, 'bluerov2', 'model.sdf')
 
-    # Ensure GZ_SIM_RESOURCE_PATH contains the package models directory (so meshes/textures resolve)
-    if 'GZ_SIM_RESOURCE_PATH' in os.environ:
-        gz_resource_path = os.environ['GZ_SIM_RESOURCE_PATH']
-        new_gz_resource_path = os.path.join(pkg_ceto_description, 'models') + ':' + gz_resource_path
-    else:
-        new_gz_resource_path = os.path.join(pkg_ceto_description, 'models')
+    # Build new resource path(s)
+    existing_gz_path = os.environ.get('GZ_SIM_RESOURCE_PATH', '')
+    existing_ign_path = os.environ.get('IGN_GAZEBO_RESOURCE_PATH', '')
 
-    set_model_path = SetEnvironmentVariable(
+    # Prepend our model directory
+    new_gz_path = f"{model_dir}:{existing_gz_path}" if existing_gz_path else model_dir
+    new_ign_path = f"{model_dir}:{existing_ign_path}" if existing_ign_path else model_dir
+
+    # Export both variables so meshes in SDF resolve
+    set_gz_resource = SetEnvironmentVariable(
         name='GZ_SIM_RESOURCE_PATH',
-        value=new_gz_resource_path
+        value=new_gz_path
     )
 
-    # Include the standard ros_gz_sim launcher (starts gzserver + gz GUI)
+    set_ign_resource = SetEnvironmentVariable(
+        name='IGN_GAZEBO_RESOURCE_PATH',
+        value=new_ign_path
+    )
+
+    # Start Gazebo (gz sim)
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')
         ),
-        launch_arguments={'gz_args': f'-r -v 4 {world_path}'}.items(),
+        launch_arguments={
+            'gz_args': f"-r -v 4 {world_path}"
+        }.items(),
     )
 
-    # Spawn the bluerov2 SDF file into the running world
+    # Spawn BlueROV2 model
     spawn_bluerov2 = Node(
         package='ros_gz_sim',
         executable='create',
         arguments=[
             '-file', model_sdf_path,
             '-name', 'bluerov2',
-            '-x', '0.0',
-            '-y', '0.0',
-            '-z', '0.0',
-            '-R', '0.0',
-            '-P', '0.0',
-            '-Y', '0.0'
+            '-x', '0.0', '-y', '0.0', '-z', '0.0',
+            '-R', '0.0', '-P', '0.0', '-Y', '0.0'
         ],
         output='screen'
     )
 
     return LaunchDescription([
-        set_model_path,
+        set_gz_resource,
+        set_ign_resource,
         gazebo,
         spawn_bluerov2
     ])

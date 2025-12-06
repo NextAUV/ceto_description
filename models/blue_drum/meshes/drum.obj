@@ -1,6 +1,7 @@
 # Blender 3.4.1
 # www.blender.org
 mtllib drum.mtl
+usemtl default
 o Cone
 v 0.000000 1.256495 -1.112115
 v 0.216963 1.256495 -1.090746
