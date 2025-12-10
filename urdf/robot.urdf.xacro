@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <robot name="ceto">
 <!-- add a dummy root (no inertia) to satisfy KDL -->
-  <link name="root_link"/>
+  <!-- <link name="root_link"/>
 
   <joint name="root_to_base_fixed" type="fixed">
     <parent link="root_link"/>
     <child link="base_link"/>
     <origin xyz="0 0 0" rpy="0 0 0"/>
-  </joint>
+  </joint> -->
 
   <!-- Base Link -->
   <link name="base_link">
