@@ -57,9 +57,20 @@ def generate_launch_description():
         output='screen'
     )
 
+        # Load bridge configuration from YAML
+    bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        name='gz_bridge',
+        output='screen',
+        parameters=[os.path.join(pkg_ceto_description, 'config', 'bridge.yaml')]
+    )
+
+
     return LaunchDescription([
         set_gz_resource,
         set_ign_resource,
         gazebo,
-        spawn_bluerov2
+        spawn_bluerov2,
+        bridge
     ])
