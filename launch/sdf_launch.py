@@ -5,7 +5,6 @@ from launch.actions import IncludeLaunchDescription, SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 
-
 def generate_launch_description():
     pkg_ceto_description = get_package_share_directory('ceto_description')
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
@@ -14,37 +13,26 @@ def generate_launch_description():
     world_path = os.path.join(pkg_ceto_description, 'worlds', 'sauvc25.world')
     model_dir = os.path.join(pkg_ceto_description, 'models')
     model_sdf_path = os.path.join(model_dir, 'bluerov2', 'model.sdf')
+    bridge_config_path = os.path.join(pkg_ceto_description, 'config', 'bridge.yaml')
 
-    # Build new resource path(s)
+    # Resources
     existing_gz_path = os.environ.get('GZ_SIM_RESOURCE_PATH', '')
     existing_ign_path = os.environ.get('IGN_GAZEBO_RESOURCE_PATH', '')
-
-    # Prepend our model directory
     new_gz_path = f"{model_dir}:{existing_gz_path}" if existing_gz_path else model_dir
     new_ign_path = f"{model_dir}:{existing_ign_path}" if existing_ign_path else model_dir
 
-    # Export both variables so meshes in SDF resolve
-    set_gz_resource = SetEnvironmentVariable(
-        name='GZ_SIM_RESOURCE_PATH',
-        value=new_gz_path
-    )
+    set_gz_resource = SetEnvironmentVariable(name='GZ_SIM_RESOURCE_PATH', value=new_gz_path)
+    set_ign_resource = SetEnvironmentVariable(name='IGN_GAZEBO_RESOURCE_PATH', value=new_ign_path)
 
-    set_ign_resource = SetEnvironmentVariable(
-        name='IGN_GAZEBO_RESOURCE_PATH',
-        value=new_ign_path
-    )
-
-    # Start Gazebo (gz sim)
+    # Gazebo Sim
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')
         ),
-        launch_arguments={
-            'gz_args': f"-r -v 4 {world_path}"
-        }.items(),
+        launch_arguments={'gz_args': f"-r -v 4 {world_path}"}.items(),
     )
 
-    # Spawn BlueROV2 model
+    # Spawn Robot
     spawn_bluerov2 = Node(
         package='ros_gz_sim',
         executable='create',
@@ -57,20 +45,21 @@ def generate_launch_description():
         output='screen'
     )
 
-        # Load bridge configuration from YAML
+    # Bridge Node
     bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
-        name='gz_bridge',
-        output='screen',
-        parameters=[os.path.join(pkg_ceto_description, 'config', 'bridge.yaml')]
+        parameters=[{
+            'config_file': bridge_config_path,
+            'qos_overrides./tf_static.publisher.reliability': 'reliable',
+        }],
+        output='screen'
     )
-
 
     return LaunchDescription([
         set_gz_resource,
         set_ign_resource,
         gazebo,
         spawn_bluerov2,
-        bridge
+        bridge  # Added here
     ])
