@@ -24,13 +24,13 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
 
     # Nodes
-    joint_state_publisher_node = Node(
-        package='joint_state_publisher',
-        executable='joint_state_publisher',
-        name='joint_state_publisher',
-        parameters=[{'use_sim_time': use_sim_time}],
-        output='screen'
-    )
+    # joint_state_publisher_node = Node(
+    #     package='joint_state_publisher',
+    #     executable='joint_state_publisher',
+    #     name='joint_state_publisher',
+    #     parameters=[{'use_sim_time': use_sim_time}],
+    #     output='screen'
+    # )
 
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
@@ -58,7 +58,7 @@ def generate_launch_description():
             default_value='false',
             description='Use simulation clock (Gazebo)'
         ),
-        joint_state_publisher_node,
+        # joint_state_publisher_node,
         robot_state_publisher_node,
         rviz_node
     ])
